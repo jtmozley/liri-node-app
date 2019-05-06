@@ -10,16 +10,19 @@ var request = process.argv[3];
 
 switch (category) {
   case "concert":
-    console.log("inside concert-this");
-    console.log("request " + request);
+    // console.log("inside concert-this");
+    // console.log("request " + request);
     concertThis(request);
     break;
   case "spotify":
-    console.log("inside switch for spotify");
-    console.log("request " + request);
+    // console.log("inside switch for spotify");
+    // console.log("request " + request);
     spotifyThis(request);
     break;
-  case "movie-this":
+  case "movie":
+    console.log("inside movie");
+    console.log("request: " + request);
+    movieThis(request);
     break;
   case "do-what-it-says":
     break;
@@ -53,13 +56,32 @@ function spotifyThis(song) {
     .search({ type: "track", query: song })
     .then(function(response) {
       console.log("-Artist: " + response.tracks.items[0].artists[0].name);
-      console.log("-Link to song: " + response.tracks.items[0].artists[0].external_urls.spotify);
-      console.log("-Artist: " + response);
-
+      console.log("-Song title: " + response.tracks.items[0].name);
+      console.log(
+        "-Link to song: " +
+          response.tracks.items[0].artists[0].external_urls.spotify
+      );
+      console.log("-Album title: " + response.tracks.items[0].album.name);
     })
     .catch(function(err) {
       console.log(err);
     });
+}
+
+function movieThis(name) {
+  var queryUrl =
+    "http://www.omdbapi.com/?t=" + name + "&y=&plot=short&apikey=trilogy";
+
+  axios.get(queryUrl).then(function(response) {
+    console.log("Title: " + response.data.Title);
+    console.log("Year: " + response.data.Year);
+    console.log("IMDB: " + response.data.Ratings[0].Value);
+    console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value);
+    console.log("Country: " + response.data.Country);
+    console.log("Language: " + response.data.Language);
+    console.log("Plot: " + response.data.Plot);
+    console.log("Actors: " + response.data.Actors);
+  });
 }
 
 function dowhatitsays() {
