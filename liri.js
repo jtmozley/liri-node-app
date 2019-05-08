@@ -17,12 +17,18 @@ function scan(param) {
       concertThis(request);
       break;
     case "spotify-this-song":
-      spotifyThis(request);
+      if (!request) {
+        spotifyThis("The Sign");
+      } else {
+        spotifyThis(request);
+      }
       break;
     case "movie-this":
-      console.log("inside movie");
-      console.log("request: " + request);
-      movieThis(request);
+      if (!request) {
+        movieThis("Mr. Nobody");
+      } else {
+        movieThis(request);
+      }
       break;
     case "do-what-it-says":
       dowhatitsays();
@@ -92,6 +98,5 @@ function dowhatitsays() {
     var returned = contents.split(",");
     request = returned[1];
     scan(returned[0]);
-    console.log(returned);
   });
 }
