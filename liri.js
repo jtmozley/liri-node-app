@@ -4,31 +4,33 @@ var keys = require("./keys.js");
 var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
 var moment = require("moment");
+var fs = require("fs");
 
 var category = process.argv[2];
 var request = process.argv[3];
 
-switch (category) {
-  case "concert":
-    // console.log("inside concert-this");
-    // console.log("request " + request);
-    concertThis(request);
-    break;
-  case "spotify":
-    // console.log("inside switch for spotify");
-    // console.log("request " + request);
-    spotifyThis(request);
-    break;
-  case "movie":
-    console.log("inside movie");
-    console.log("request: " + request);
-    movieThis(request);
-    break;
-  case "do-what-it-says":
-    break;
+scan(category);
 
-  default:
-    break;
+function scan(param) {
+  switch (param) {
+    case "concert-this":
+      concertThis(request);
+      break;
+    case "spotify-this-song":
+      spotifyThis(request);
+      break;
+    case "movie-this":
+      console.log("inside movie");
+      console.log("request: " + request);
+      movieThis(request);
+      break;
+    case "do-what-it-says":
+      dowhatitsays();
+      break;
+
+    default:
+      break;
+  }
 }
 
 function concertThis(artist) {
@@ -85,15 +87,11 @@ function movieThis(name) {
 }
 
 function dowhatitsays() {
-  ///calling in fs readfile random.txt
-  //return back the string for it
-  //break up the string and store into an array by a commoma
-  //first element is the "spotify"
-  //the rest is the request  "cher"
-
   fs.readFile("random.txt", "utf8", function(err, contents) {
     if (err) return console.log(err);
-    var returned = contents.split(", ").join("\n");
+    var returned = contents.split(",");
+    request = returned[1];
+    scan(returned[0]);
     console.log(returned);
   });
 }
