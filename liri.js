@@ -18,7 +18,7 @@ function scan(param) {
       break;
     case "spotify-this-song":
       if (!request) {
-        spotifyThis("The Sign");
+        spotifyThis("the sign");
       } else {
         spotifyThis(request);
       }
